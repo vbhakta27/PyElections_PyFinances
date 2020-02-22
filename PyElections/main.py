@@ -1,10 +1,8 @@
 # Lists to store data
-candidate = []
-county = []
-voter_id = []
-unique_candidates = []
-vote_count = []
-data_set=[]
+dictVoting = {}
+SortedByVotes_dictVoting =[]
+total_votes = 0
+percent_votes = []
 
 # Allows us to creat file paths across operating systems
 import os
@@ -21,33 +19,62 @@ with open(csvpath, newline='') as csvfile:
     # CSV reader specifies delimiter as a comma and variable to hold contents
     csvreader = csv.reader(csvfile, delimiter=',')
     
-    # Read the header row first
-    csv_header = next(csvreader)
+    # Skips the header row first
+    next(csvreader)
     
     # Loop through CSV to get lists of data
     for row in csvreader:
 
-        # Create array of data from CSV
-        data_set.append(row)
+        # Keeps a count of total vote entries
+        total_votes +=1
+        
+        # Fill dictionary of unique candidate names. Everytime it comes across a unique candidate store it as a key and set its value to 1. 
+        # If that candidates name comes up again then add 1 to its stored value to get a total vote count for that candidate.
+        if row[0] not in dictVoting.keys():
+            dictVoting[row[0]] = 1
+        else:
+            dictVoting[row[0]] += 1
 
-        # Fill candidate variable
-        candidate.append(row[0])
+# Create a sorted list by descending votes
+import operator
+SortedByVotes_dictVoting = sorted(dictVoting.items(), key=operator.itemgetter(1),reverse=True)
 
-        # Fill county variable
-        county.append(row[1])
+# Create a list of percent votes for each candidate
+for candidate, votes in SortedByVotes_dictVoting:
+    percent_votes.append(votes/total_votes)
 
-        # Fill voter_id variable
-        voter_id.append(row[2])
+# Print out results table
+print('Houston Mayoral Election Results')
+print('-----------------------------------------')
+print('Total Cast Votes: ' + str(total_votes))
+print('-----------------------------------------')
 
-    
-    # Loop through candidates to creat a list of unique candidates
-    for x in candidate:
-        if x not in unique_candidates:
-            unique_candidates.append(x)
-    print(unique_candidates)
+x = 0
+for key,value in SortedByVotes_dictVoting:
+    percent = percent_votes[x]
+    print(f"{key}: {round(percent*100, 2)}% ({value})")
+    x += 1
+
+print('-----------------------------------------')
+print('1st Advancing Candidate: ' + SortedByVotes_dictVoting[0][0])
+print('2nd Advancing Candidate: ' + SortedByVotes_dictVoting[1][0])
+print('-----------------------------------------')
 
 
-    # Loop through candidates and get a count of how many times a unique candidate name appeared
-    for name in unique_candidates:      
-        vote_count.append(candidate.count(name))
-    print(vote_count)
+f= open("PyElections.txt","w+")
+f.write('Houston Mayoral Election Results\n')
+f.write('-----------------------------------------\n')
+f.write('Total Cast Votes: ' + str(total_votes))
+f.write('\n-----------------------------------------\n')
+
+x = 0
+for key,value in SortedByVotes_dictVoting:
+    percent = percent_votes[x]
+    f.write(f"{key}: {round(percent*100, 2)}% ({value})\n")
+    x += 1
+
+f.write('-----------------------------------------\n')
+f.write('1st Advancing Candidate: ' + SortedByVotes_dictVoting[0][0])
+f.write('\n2nd Advancing Candidate: ' + SortedByVotes_dictVoting[1][0])
+f.write('\n-----------------------------------------\n')
+f.close() 
