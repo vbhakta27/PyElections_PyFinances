@@ -10,9 +10,11 @@ Write a script that will decide the two candidates with the highest number of vo
 - The total number of votes each candidate won
 - Prints the names of the two candidates who will advance to the runoff election.
 
+
 Results:
 
 ![](/PyElections/Election_Results.png)
+
 
 
 ## PyFinances
@@ -24,6 +26,7 @@ The Python script analyzes the records to calculate each of the following:
 - The average of the changes in "Profit/Losses" over the entire period
 - The greatest increase in profits (date and amount) over the entire period
 - The greatest decrease in losses (date and amount) over the entire period
+
 
 Results:
 
