@@ -11,6 +11,7 @@ Write a script that will decide the two candidates with the highest number of vo
 - Prints the names of the two candidates who will advance to the runoff election.
 
 Results:
+
 ![](/PyElections/Election_Results.png)
 
 
@@ -25,4 +26,5 @@ The Python script analyzes the records to calculate each of the following:
 - The greatest decrease in losses (date and amount) over the entire period
 
 Results:
+
 ![](/PyFinances/Finances_Results.png)
